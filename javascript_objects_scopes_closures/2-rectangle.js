@@ -1,4 +1,4 @@
-// Rectangle.js
+// 2-rectangle.js
 class Rectangle {
     constructor(w, h) {
         if (w <= 0 || h <= 0 || isNaN(w) || isNaN(h)) {
@@ -11,4 +11,7 @@ class Rectangle {
             // Initialize the instance attribute height with the value of h
             this.height = h;
         }
-   
+    }
+}
+
+module.exports = Rectangle;
