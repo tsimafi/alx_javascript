@@ -6,13 +6,13 @@ const fs = require('fs');
 const url = process.argv[2];
 const filePath = process.argv[3];
 
-// Make the GET request to the specified URL
+// Make the GET request to fetch the webpage content
 request.get(url, (error, response, body) => {
     if (error) {
         // Handle error if request fails
         console.error(error);
     } else {
-        // Write the response body to the specified file path
+        // Write the content to the specified file path
         fs.writeFile(filePath, body, { encoding: 'utf-8' }, (err) => {
             if (err) {
                 console.error(err);
