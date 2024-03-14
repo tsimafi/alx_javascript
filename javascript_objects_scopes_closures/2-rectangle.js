@@ -2,20 +2,21 @@
 import MySQLdb
 import sys
 
-if __name__ == "__main__":
+def filter_states(username, password, database, state_name):
     # Connect to MySQL server
-    db = MySQLdb.connect(host="localhost", port=3306, user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    db = MySQLdb.connect(host="localhost", port=3306, user=username, passwd=password, db=database)
 
     # Create a cursor object using cursor() method
     cursor = db.cursor()
 
     # Construct SQL query using format with user input
-    sql = "SELECT * FROM states WHERE name = '{}' ORDER BY id ASC".format(sys.argv[4])
+    sql = "SELECT * FROM states WHERE name = %s ORDER BY id ASC"
+    data = (state_name,)
 
     # Execute SQL query
-    cursor.execute(sql)
+    cursor.execute(sql, data)
 
-    # Fetch all the rows in a list of lists
+    # Fetch all the rows in a list of tuples
     results = cursor.fetchall()
 
     # Display results
@@ -24,3 +25,18 @@ if __name__ == "__main__":
 
     # Disconnect from server
     db.close()
+
+if __name__ == "__main__":
+    # Check if all required arguments are provided
+    if len(sys.argv) != 5:
+        print("Usage: {} <mysql_username> <mysql_password> <database_name> <state_name>".format(sys.argv[0]))
+        sys.exit(1)
+
+    # Retrieve arguments
+    username = sys.argv[1]
+    password = sys.argv[2]
+    database = sys.argv[3]
+    state_name = sys.argv[4]
+
+    # Call the function
+    filter_states(username, password, database, state_name)
