@@ -1,24 +1,28 @@
-class Rectangle {
-    constructor(w, h) {
-        if (w <= 0 || h <= 0 || !Number.isInteger(w) || !Number.isInteger(h)) {
-            return {}; // Return an empty object
-        } else {
-            this.width = w;
-            this.height = h;
-        }
-    }
+import sys
+import requests
 
-    print() {
-        if (this.width && this.height) {
-            for (let i = 0; i < this.height; i++) {
-                let row = '';
-                for (let j = 0; j < this.width; j++) {
-                    row += 'X';
-                }
-                console.log(row);
-            }
-        }
-    }
-}
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: python3 script_name.py <URL> <output_file>")
+        sys.exit(1)
 
-module.exports = Rectangle;
+    url = sys.argv[1]
+    output_file = sys.argv[2]
+
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise exception for bad status codes
+
+        with open(output_file, "w", encoding="utf-8") as file:
+            file.write(response.text)
+        
+        print(f"Content successfully saved to {output_file}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching content from URL: {e}")
+        sys.exit(1)
+    except IOError as e:
+        print(f"Error writing to file: {e}")
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
